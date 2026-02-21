@@ -1,48 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient Portal</title>
+    <title>Smart Clinic - Patient Portal</title>
     <style>
-        body { font-family: Arial; text-align:center; margin-top:50px; }
-        input { padding:8px; margin:5px; }
-        button { padding:8px 15px; }
-        table { margin:auto; margin-top:20px; border-collapse: collapse; }
-        th, td { border:1px solid black; padding:8px 15px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            padding: 8px;
+            width: 70%;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #28a745;
+            color: white;
+        }
     </style>
 </head>
 <body>
 
-<h2>Patient Portal - Search Doctor</h2>
+<div class="container">
+    <h2>Patient Portal - Search Doctor</h2>
 
-<input type="text" id="searchName" placeholder="Enter Doctor Name">
-<button onclick="searchDoctor()">Search</button>
+    <input type="text" id="searchName" placeholder="Enter Doctor Name">
+    <button onclick="searchDoctor()">Search</button>
 
-<h3>Available Doctors</h3>
+    <h3>Search Results</h3>
 
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Specialization</th>
-        </tr>
-    </thead>
-    <tbody id="doctorList">
-        <tr><td>Dr. Smith</td><td>Cardiology</td></tr>
-        <tr><td>Dr. John</td><td>Dermatology</td></tr>
-        <tr><td>Dr. Emily</td><td>Neurology</td></tr>
-    </tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th>Doctor Name</th>
+                <th>Specialization</th>
+            </tr>
+        </thead>
+        <tbody id="doctorResults"></tbody>
+    </table>
+</div>
 
 <script>
-function searchDoctor() {
-    const input = document.getElementById("searchName").value.toLowerCase();
-    const rows = document.getElementById("doctorList").rows;
+    const doctors = [
+        { name: "Dr. Raj", specialization: "Cardiology" },
+        { name: "Dr. Meena", specialization: "Dermatology" },
+        { name: "Dr. Arun", specialization: "Neurology" }
+    ];
 
-    for(let i=0; i<rows.length; i++){
-        const name = rows[i].cells[0].innerText.toLowerCase();
-        rows[i].style.display = name.includes(input) ? "" : "none";
+    function searchDoctor() {
+        const searchValue = document.getElementById("searchName").value.toLowerCase();
+        const table = document.getElementById("doctorResults");
+        table.innerHTML = "";
+
+        const filtered = doctors.filter(doc =>
+            doc.name.toLowerCase().includes(searchValue)
+        );
+
+        if (filtered.length === 0) {
+            table.innerHTML = "<tr><td colspan='2'>No Doctor Found</td></tr>";
+            return;
+        }
+
+        filtered.forEach(doc => {
+            const row = table.insertRow();
+            row.insertCell(0).innerText = doc.name;
+            row.insertCell(1).innerText = doc.specialization;
+        });
     }
-}
 </script>
 
 </body>
