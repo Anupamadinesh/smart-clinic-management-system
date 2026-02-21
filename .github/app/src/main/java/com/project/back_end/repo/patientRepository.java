@@ -1,12 +1,16 @@
-package com.project.back_end.repositories;
+package com.project.back_end.repo;
 
 import com.project.back_end.models.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface PatientRepository extends JpaRepository<Patient, Integer> {
+import java.util.Optional;
 
-    // Custom query method (optional)
-    Patient findByEmail(String email);
+@Repository
+public interface PatientRepository extends JpaRepository<Patient, Long> {
+
+    // Already required
+    Optional<Patient> findByEmail(String email);
+
+    Optional<Patient> findByEmailOrPhone(String email, String phone);
 }
