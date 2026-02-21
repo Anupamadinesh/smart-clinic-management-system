@@ -1,25 +1,81 @@
 package com.project.back_end.models;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "appointments")
 public class Appointment {
 
-    private int id;
-    private int doctorId;
-    private int patientId;
-    private LocalDateTime appointmentDate;
-    private String status;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Relationship with Doctor
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    @NotNull
+    private Doctor doctor;
+
+    // Relationship with Patient
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    @NotNull
+    private Patient patient;
+
+    // Appointment Date
+    @NotNull
+    @Future
+    private LocalDate appointmentDate;
+
+    private String time;
 
     public Appointment() {
     }
 
-    public Appointment(int id, int doctorId, int patientId, LocalDateTime appointmentDate, String status) {
-        this.id = id;
-        this.doctorId = doctorId;
-        this.patientId = patientId;
+    public Appointment(Doctor doctor, Patient patient, LocalDate appointmentDate, String time) {
+        this.doctor = doctor;
+        this.patient = patient;
         this.appointmentDate = appointmentDate;
-        this.status = status;
+        this.time = time;
     }
 
-    // getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public LocalDate getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
