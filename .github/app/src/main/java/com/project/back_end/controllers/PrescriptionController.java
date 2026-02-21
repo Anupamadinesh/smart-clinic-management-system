@@ -2,49 +2,48 @@ package com.project.back_end.controllers;
 
 import com.project.back_end.models.Prescription;
 import com.project.back_end.services.PrescriptionService;
+import com.project.back_end.services.TokenService;
+
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/prescriptions")
 public class PrescriptionController {
 
     private final PrescriptionService prescriptionService;
+    private final TokenService tokenService;
 
-    public PrescriptionController(PrescriptionService prescriptionService) {
+    public PrescriptionController(PrescriptionService prescriptionService,
+                                  TokenService tokenService) {
         this.prescriptionService = prescriptionService;
+        this.tokenService = tokenService;
     }
 
-    // Get all prescriptions
-    @GetMapping
-    public ResponseEntity<List<Prescription>> getAllPrescriptions() {
-        return ResponseEntity.ok(prescriptionService.getAllPrescriptions());
-    }
-
-    // Add new prescription (REQUIRED FIX)
-    @PostMapping
-    public ResponseEntity<Prescription> addPrescription(
+    @PostMapping("/{token}")
+    public ResponseEntity<Map<String, String>> addPrescription(
+            @PathVariable String token,
             @Valid @RequestBody Prescription prescription) {
 
-        Prescription saved = prescriptionService.savePrescription(prescription);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-    }
+        Map<String, String> response = new HashMap<>();
 
-    // Get prescription by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Prescription> getPrescriptionById(@PathVariable Long id) {
-        Prescription prescription = prescriptionService.getPrescriptionById(id);
-        return ResponseEntity.ok(prescription);
-    }
+        // 🔐 Token validation
+        if (!tokenService.validateToken(token)) {
+            response.put("status", "error");
+            response.put("message", "Invalid token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
 
-    // Delete prescription
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePrescription(@PathVariable Long id) {
-        prescriptionService.deletePrescription(id);
-        return ResponseEntity.ok("Prescription deleted successfully!");
+        prescriptionService.save(prescription);
+
+        response.put("status", "success");
+        response.put("message", "Prescription saved successfully");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
