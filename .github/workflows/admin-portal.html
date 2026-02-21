@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Portal</title>
+    <style>
+        body { font-family: Arial; text-align:center; margin-top:50px; }
+        input { padding:8px; margin:5px; }
+        button { padding:8px 15px; }
+        table { margin:auto; margin-top:20px; border-collapse: collapse; }
+        th, td { border:1px solid black; padding:8px 15px; }
+    </style>
+</head>
+<body>
+
+<h2>Admin Portal - Add Doctor</h2>
+
+<input type="text" id="docName" placeholder="Doctor Name">
+<input type="text" id="specialization" placeholder="Specialization">
+<button onclick="addDoctor()">Add Doctor</button>
+
+<h3>Doctor List</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+        </tr>
+    </thead>
+    <tbody id="doctorTable"></tbody>
+</table>
+
+<script>
+function addDoctor() {
+    const name = document.getElementById("docName").value;
+    const spec = document.getElementById("specialization").value;
+
+    if(name && spec){
+        const table = document.getElementById("doctorTable");
+        const row = table.insertRow();
+        row.insertCell(0).innerText = name;
+        row.insertCell(1).innerText = spec;
+
+        document.getElementById("docName").value = "";
+        document.getElementById("specialization").value = "";
+    }
+}
+</script>
+
+</body>
+</html>
