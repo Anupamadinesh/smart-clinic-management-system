@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Clinic - Doctor Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .container {
+            width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Doctor Portal - My Appointments</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Appointment Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="appointmentTable"></tbody>
+    </table>
+
+</div>
+
+<script>
+    const appointments = [
+        { patient: "Riya", date: "2026-02-21", time: "10:00 AM", status: "Confirmed" },
+        { patient: "Arun", date: "2026-02-21", time: "11:30 AM", status: "Completed" },
+        { patient: "Meena", date: "2026-02-22", time: "02:00 PM", status: "Pending" }
+    ];
+
+    const table = document.getElementById("appointmentTable");
+
+    appointments.forEach(app => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = app.patient;
+        row.insertCell(1).innerText = app.date;
+        row.insertCell(2).innerText = app.time;
+        row.insertCell(3).innerText = app.status;
+    });
+</script>
+
+</body>
+</html>
