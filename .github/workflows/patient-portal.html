@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Portal</title>
+    <style>
+        body { font-family: Arial; text-align:center; margin-top:50px; }
+        input { padding:8px; margin:5px; }
+        button { padding:8px 15px; }
+        table { margin:auto; margin-top:20px; border-collapse: collapse; }
+        th, td { border:1px solid black; padding:8px 15px; }
+    </style>
+</head>
+<body>
+
+<h2>Patient Portal - Search Doctor</h2>
+
+<input type="text" id="searchName" placeholder="Enter Doctor Name">
+<button onclick="searchDoctor()">Search</button>
+
+<h3>Available Doctors</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+        </tr>
+    </thead>
+    <tbody id="doctorList">
+        <tr><td>Dr. Smith</td><td>Cardiology</td></tr>
+        <tr><td>Dr. John</td><td>Dermatology</td></tr>
+        <tr><td>Dr. Emily</td><td>Neurology</td></tr>
+    </tbody>
+</table>
+
+<script>
+function searchDoctor() {
+    const input = document.getElementById("searchName").value.toLowerCase();
+    const rows = document.getElementById("doctorList").rows;
+
+    for(let i=0; i<rows.length; i++){
+        const name = rows[i].cells[0].innerText.toLowerCase();
+        rows[i].style.display = name.includes(input) ? "" : "none";
+    }
+}
+</script>
+
+</body>
+</html>
